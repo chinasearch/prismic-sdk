@@ -3,6 +3,7 @@
 namespace Prismic\Dom;
 
 use Prismic\Dom\BlockGroup;
+use Prismic\LinkResolver;
 
 /**
  * This class embodies a RichText fragment.
@@ -41,7 +42,7 @@ class RichText
      *
      * @param object                $richText       the rich text object
      * @param \Prismic\LinkResolver $linkResolver   the link resolver
-     * @param lambda                $htmlSerializer an optional function to generate custom HTML code
+     * @param callable                $htmlSerializer an optional function to generate custom HTML code
      *
      * @return string the HTML version of the RichText fragment
      */
@@ -112,7 +113,7 @@ class RichText
      *
      * @param object                $block          a given block
      * @param \Prismic\LinkResolver $linkResolver   the link resolver
-     * @param lambda                $htmlSerializer the user's custom HTML serializer
+     * @param callable                $htmlSerializer the user's custom HTML serializer
      *
      * @return string the HTML representation of the block
      */
@@ -144,7 +145,7 @@ class RichText
      * @param string                $text           the raw text of the block
      * @param array                 $spans          the spans of the block
      * @param \Prismic\LinkResolver $linkResolver   the link resolver
-     * @param lambda                $htmlSerializer the user's custom HTML serializer
+     * @param callable                $htmlSerializer the user's custom HTML serializer
      *
      * @return string the HTML representation of the block
      */
@@ -233,10 +234,10 @@ class RichText
      * Transforms an element into HTML
      *
      *
-     * @param object                $element        element to serialize
-     * @param string                $content        inner HTML content of the element
-     * @param \Prismic\LinkResolver $linkResolver   the link resolver
-     * @param lambda                $htmlSerializer the user's custom HTML serializer
+     * @param object $element element to serialize
+     * @param string $content inner HTML content of the element
+     * @param LinkResolver $linkResolver the link resolver
+     * @param callable $htmlSerializer the user's custom HTML serializer
      *
      * @return string the HTML representation of the element
      */
@@ -279,7 +280,7 @@ class RichText
             case 'image':
                 return (
                     '<p class="block-img' . (isset($element->label) ? (' ' . $element->label) : '') . '">' .
-                        '<img src="' . $element->url . '" alt="' . htmlentities($element->alt) . '">' .
+                        '<img src="' . $element->url . '" alt="' . htmlentities((string) $element->alt) . '">' .
                     '</p>'
                 );
             case 'embed':
